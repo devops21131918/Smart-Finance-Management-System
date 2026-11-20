@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
 from app import models
+from app.routers import transactions
 
 Base.metadata.create_all(bind=engine)
 
@@ -26,6 +27,7 @@ def read_root():
         'message': 'Smart Finance API is running!',
         'status': "healthy"
     }
+app.include_router(transactions.router, prefix="/api/v1", tags=["Transactions"])
 
 @app.get('/health')
 def health_check():
